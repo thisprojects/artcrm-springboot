@@ -58,4 +58,10 @@ public class ContactController {
                               @RequestParam(required = false) Set<Event> events) {
         contactService.updateContact(contactId, email, firstName, lastName, postCode, age, contactTags, organisations,  events);
     }
+
+    @PutMapping(path = "/updatejson/{contactId}")
+    @CrossOrigin(origins = "*")
+    public void updateContactJSON(@PathVariable("contactId") UUID contactId, @RequestBody Contact contact) {
+        contactService.updateContactJson(contactId, contact);
+    }
 }

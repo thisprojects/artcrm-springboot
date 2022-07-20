@@ -129,6 +129,58 @@ public class ContactService {
         }
     }
 
+    @Transactional
+    public void updateContactJson(UUID contactId, Contact contact) {
+        Contact contactFromDb = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("No contact found"));
+
+        String firstName = contact.getFirstName();
+        String lastName = contact.getLastName();
+        String postCode = contact.getPostCode();
+        String email = contact.getEmail();
+        Integer age = contact.getAge();
+        Set<Tag> contactTags = contact.getTags();
+        Set<Organisation> organisations = contact.getOrganisations();
+        Set<Event> events = contact.getEvents();
+
+        if (firstName != null && firstName.length() > 0  && !Objects.equals(firstName, contactFromDb.getFirstName())) {
+            contactFromDb.setFirstName(firstName);
+        }
+
+        if (lastName != null && lastName.length() > 0  && !Objects.equals(lastName, contactFromDb.getLastName())) {
+            contactFromDb.setLastName(lastName);
+        }
+
+        if (postCode != null && postCode.length() > 0  && !Objects.equals(postCode, contactFromDb.getPostCode())) {
+            contactFromDb.setPostCode(postCode);
+        }
+
+        if (email != null && email.length() > 0  && !Objects.equals(email, contactFromDb.getEmail())) {
+            contactFromDb.setEmail(email);
+        }
+
+        if (age != null && age > 0  && !Objects.equals(age, contactFromDb.getAge())) {
+            contactFromDb.setAge(age);
+        }
+
+        if (contactTags != null && !contactTags.isEmpty()) {
+            Set<Tag> tags = contact.getTags();
+            tags.addAll(contactTags);
+            contactFromDb.setTags(tags);
+        }
+
+        if (organisations != null && !organisations.isEmpty()) {
+            Set<Organisation> orgs = contact.getOrganisations();
+            orgs.addAll(organisations);
+            contactFromDb.setOrganisations(orgs);
+        }
+
+        if (events != null && !events.isEmpty()) {
+            Set<Event> eventSet = contact.getEvents();
+            eventSet.addAll(events);
+            contactFromDb.setEvents(eventSet);
+        }
+    }
+
 
     public Contact getSingleContact(UUID contactId) {
         return contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("No contact found"));
