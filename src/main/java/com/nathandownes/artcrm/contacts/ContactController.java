@@ -37,11 +37,13 @@ public class ContactController {
     }
 
     @PostMapping(path = "/create")
+    @CrossOrigin(origins = "*")
     public void registerNewContact(@RequestBody Contact contact) {
         contactService.addNewContact(contact);
     }
 
     @DeleteMapping(path = "/delete/{contactId}")
+    @CrossOrigin(origins = "*")
     public void deleteContact(@PathVariable("contactId") UUID contactId) {
         contactService.deleteContact(contactId);
     }
