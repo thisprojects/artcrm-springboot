@@ -17,7 +17,8 @@ public class TagController {
         this.tagService = TagService;
     }
 
-    @GetMapping(path = "/get")
+    @GetMapping(path = "/getAll")
+    @CrossOrigin(origins = "*")
     public List<Tag> getTags() {
         return tagService.getTags();
     }
