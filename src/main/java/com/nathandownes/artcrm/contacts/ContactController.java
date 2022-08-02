@@ -42,6 +42,14 @@ public class ContactController {
         contactService.addNewContact(contact);
     }
 
+    @PostMapping(path = "/createBulk")
+    @CrossOrigin(origins = "*")
+    public void registerBulkContacts(@RequestBody Set<Contact> contacts) {
+        contacts.forEach( contact ->
+                contactService.addNewContact(contact)
+                );
+    }
+
     @DeleteMapping(path = "/delete/{contactId}")
     @CrossOrigin(origins = "*")
     public void deleteContact(@PathVariable("contactId") UUID contactId) {
