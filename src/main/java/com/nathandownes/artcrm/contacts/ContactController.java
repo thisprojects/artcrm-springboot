@@ -6,7 +6,10 @@ import com.nathandownes.artcrm.organisations.Organisation;
 import com.nathandownes.artcrm.tags.Tag;
 import com.nathandownes.artcrm.utility.JsonModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Set;
@@ -44,16 +47,31 @@ public class ContactController {
 
     @PostMapping(path = "/createBulk")
     @CrossOrigin(origins = "*")
-    public void registerBulkContacts(@RequestBody Set<Contact> contacts) {
-        contacts.forEach( contact ->
-                contactService.addNewContact(contact)
-                );
+    public ResponseEntity<Object> registerBulkContacts(@RequestBody Set<Contact> contacts) {
+        try {
+            contacts.forEach(contactService::addNewContact);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
     }
+
 
     @DeleteMapping(path = "/delete/{contactId}")
     @CrossOrigin(origins = "*")
     public void deleteContact(@PathVariable("contactId") UUID contactId) {
         contactService.deleteContact(contactId);
+    }
+
+    @DeleteMapping(path = "/deleteMulti")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<Object> deleteMultipleContacts(@RequestBody Set<UUID> contactIds) {
+        try {
+            contactIds.forEach(contactService::deleteContact);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     @PutMapping(path = "/update/{contactId}")
@@ -66,7 +84,7 @@ public class ContactController {
                               @RequestParam(required = false) Set<Tag> contactTags,
                               @RequestParam(required = false) Set<Organisation> organisations,
                               @RequestParam(required = false) Set<Event> events) {
-        contactService.updateContact(contactId, email, firstName, lastName, postCode, age, contactTags, organisations,  events);
+        contactService.updateContact(contactId, email, firstName, lastName, postCode, age, contactTags, organisations, events);
     }
 
     @PutMapping(path = "/updatejson/{contactId}")

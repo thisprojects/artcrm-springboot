@@ -68,7 +68,7 @@ public class Organisation {
     public Organisation() {
     }
 
-    
+
     public UUID getId() {
         return id;
     }

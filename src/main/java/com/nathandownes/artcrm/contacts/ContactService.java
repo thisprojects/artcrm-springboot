@@ -72,7 +72,7 @@ public class ContactService {
                 deleteOrgRelationships(orgs);
                 contact.removeOrganisations();
             }
-            if (!events.isEmpty()){
+            if (!events.isEmpty()) {
                 deleteEventRelationships(events);
                 contact.removeEvents();
             }
@@ -90,23 +90,23 @@ public class ContactService {
             contactTags, Set<Organisation> organisations, Set<Event> events) {
         Contact contact = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("No contact found"));
 
-        if (firstName != null && firstName.length() > 0  && !Objects.equals(firstName, contact.getFirstName())) {
+        if (firstName != null && firstName.length() > 0 && !Objects.equals(firstName, contact.getFirstName())) {
             contact.setFirstName(firstName);
         }
 
-        if (lastName != null && lastName.length() > 0  && !Objects.equals(lastName, contact.getLastName())) {
+        if (lastName != null && lastName.length() > 0 && !Objects.equals(lastName, contact.getLastName())) {
             contact.setLastName(lastName);
         }
 
-        if (postCode != null && postCode.length() > 0  && !Objects.equals(postCode, contact.getPostCode())) {
+        if (postCode != null && postCode.length() > 0 && !Objects.equals(postCode, contact.getPostCode())) {
             contact.setPostCode(postCode);
         }
 
-        if (email != null && email.length() > 0  && !Objects.equals(email, contact.getEmail())) {
+        if (email != null && email.length() > 0 && !Objects.equals(email, contact.getEmail())) {
             contact.setEmail(email);
         }
 
-        if (age != null && age > 0  && !Objects.equals(age, contact.getAge())) {
+        if (age != null && age > 0 && !Objects.equals(age, contact.getAge())) {
             contact.setAge(age);
         }
 
@@ -142,23 +142,23 @@ public class ContactService {
         Set<Organisation> organisations = contact.getOrganisations();
         Set<Event> events = contact.getEvents();
 
-        if (firstName != null && firstName.length() > 0  && !Objects.equals(firstName, contactFromDb.getFirstName())) {
+        if (firstName != null && firstName.length() > 0 && !Objects.equals(firstName, contactFromDb.getFirstName())) {
             contactFromDb.setFirstName(firstName);
         }
 
-        if (lastName != null && lastName.length() > 0  && !Objects.equals(lastName, contactFromDb.getLastName())) {
+        if (lastName != null && lastName.length() > 0 && !Objects.equals(lastName, contactFromDb.getLastName())) {
             contactFromDb.setLastName(lastName);
         }
 
-        if (postCode != null && postCode.length() > 0  && !Objects.equals(postCode, contactFromDb.getPostCode())) {
+        if (postCode != null && postCode.length() > 0 && !Objects.equals(postCode, contactFromDb.getPostCode())) {
             contactFromDb.setPostCode(postCode);
         }
 
-        if (email != null && email.length() > 0  && !Objects.equals(email, contactFromDb.getEmail())) {
+        if (email != null && email.length() > 0 && !Objects.equals(email, contactFromDb.getEmail())) {
             contactFromDb.setEmail(email);
         }
 
-        if (age != null && age > 0  && !Objects.equals(age, contactFromDb.getAge())) {
+        if (age != null && age > 0 && !Objects.equals(age, contactFromDb.getAge())) {
             contactFromDb.setAge(age);
         }
 

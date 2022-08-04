@@ -9,7 +9,8 @@ import com.nathandownes.artcrm.organisations.Organisation;
 import javax.persistence.*;
 import java.util.Set;
 
-@Table @Entity
+@Table
+@Entity
 public class Tag {
     @Id
     @SequenceGenerator(

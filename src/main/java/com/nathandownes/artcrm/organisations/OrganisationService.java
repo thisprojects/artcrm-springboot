@@ -54,7 +54,7 @@ public class OrganisationService {
             if (!contacts.isEmpty()) {
                 org.removeContacts();
             }
-            if (!events.isEmpty()){
+            if (!events.isEmpty()) {
                 deleteEventRelationships(events);
                 org.removeEvents();
             }
@@ -73,15 +73,15 @@ public class OrganisationService {
             organisationTags, Set<Event> events, Set<Contact> contacts) {
         Organisation organisation = organisationRepository.findOrganisationById(orgId).orElseThrow(() -> new IllegalStateException("No Organisation found"));
 
-        if (name != null && name.length() > 0  && !Objects.equals(name, organisation.getName())) {
+        if (name != null && name.length() > 0 && !Objects.equals(name, organisation.getName())) {
             organisation.setName(name);
         }
 
-        if (postCode != null && postCode.length() > 0  && !Objects.equals(postCode, organisation.getPostCode())) {
+        if (postCode != null && postCode.length() > 0 && !Objects.equals(postCode, organisation.getPostCode())) {
             organisation.setPostCode(postCode);
         }
 
-        if (email != null && email.length() > 0  && !Objects.equals(email, organisation.getEmail())) {
+        if (email != null && email.length() > 0 && !Objects.equals(email, organisation.getEmail())) {
             organisation.setEmail(email);
         }
 

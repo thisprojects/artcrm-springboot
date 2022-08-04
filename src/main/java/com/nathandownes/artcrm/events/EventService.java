@@ -34,7 +34,7 @@ public class EventService {
             eventRepository.save(event);
         }
     }
-    
+
     public Event getSingleEvent(UUID eventId) {
         return eventRepository.findById(eventId).orElseThrow(() -> new IllegalStateException("No Event found"));
     }
@@ -50,7 +50,7 @@ public class EventService {
             if (!orgs.isEmpty()) {
                 event.removeOrganisations();
             }
-            if (!contacts.isEmpty()){
+            if (!contacts.isEmpty()) {
                 event.removeContacts();
             }
             if (!eventTags.isEmpty()) {
@@ -68,15 +68,15 @@ public class EventService {
             eventTags, Set<Organisation> organisations, Set<Contact> contacts) {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalStateException("No event found"));
 
-        if (name != null && name.length() > 0  && !Objects.equals(name, event.getName())) {
+        if (name != null && name.length() > 0 && !Objects.equals(name, event.getName())) {
             event.setName(name);
         }
 
-        if (postCode != null && postCode.length() > 0  && !Objects.equals(postCode, event.getPostCode())) {
+        if (postCode != null && postCode.length() > 0 && !Objects.equals(postCode, event.getPostCode())) {
             event.setPostCode(postCode);
         }
 
-        if (venueName != null && venueName.length() > 0  && !Objects.equals(venueName, event.getVenueName())) {
+        if (venueName != null && venueName.length() > 0 && !Objects.equals(venueName, event.getVenueName())) {
             event.setVenueName(venueName);
         }
 

@@ -50,7 +50,7 @@ public class Contact {
     private Set<Tag> contactTags;
     @ManyToMany(mappedBy = "contacts", fetch = FetchType.LAZY,
             cascade =
-            CascadeType.MERGE
+                    CascadeType.MERGE
     )
     private Set<Organisation> organisations;
     @ManyToMany(mappedBy = "contacts",
@@ -88,9 +88,13 @@ public class Contact {
         this.organisations.clear();
     }
 
-    public void removeEvents() {this.events.clear();}
+    public void removeEvents() {
+        this.events.clear();
+    }
 
-    public void removeTags() {this.contactTags.clear();}
+    public void removeTags() {
+        this.contactTags.clear();
+    }
 
     public UUID getId() {
         return id;

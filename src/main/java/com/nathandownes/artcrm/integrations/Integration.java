@@ -2,7 +2,8 @@ package com.nathandownes.artcrm.integrations;
 
 import javax.persistence.*;
 
-@Table @Entity
+@Table
+@Entity
 public class Integration {
     @Id
     @SequenceGenerator(

@@ -17,7 +17,6 @@ public class UserDetailsService implements org.springframework.security.core.use
         ArtCrmUser user = repository.findByUsername(username);
 
 
-
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }

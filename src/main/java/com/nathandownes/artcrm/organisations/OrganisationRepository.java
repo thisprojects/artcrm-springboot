@@ -12,7 +12,6 @@ import java.util.UUID;
 public interface OrganisationRepository extends JpaRepository<Organisation, UUID> {
 
 
-
     @Query("SELECT s from Organisation s WHERE s.id = ?1")
     Optional<Organisation> findOrganisationById(UUID orgId);
 
