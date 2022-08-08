@@ -64,6 +64,41 @@ public class EventService {
     }
 
     @Transactional
+    public void updateEventJson(UUID eventId, Event event) {
+        Event eventFromDb = eventRepository.findById(eventId).orElseThrow(() -> new IllegalStateException("No Event found"));
+
+        String name = event.getName();
+        String venueName = event.getVenueName();
+        String postCode = event.getPostCode();
+        Set<Tag> eventTags = event.getTags();
+        Set<Contact> contacts = event.getContacts();
+
+
+        if (name != null && name.length() > 0 && !Objects.equals(name, eventFromDb.getName())) {
+            eventFromDb.setName(name);
+        }
+
+        if (postCode != null && postCode.length() > 0 && !Objects.equals(postCode, eventFromDb.getPostCode())) {
+            eventFromDb.setPostCode(postCode);
+        }
+
+        if (venueName != null && venueName.length() > 0 && !Objects.equals(venueName, eventFromDb.getVenueName())) {
+            eventFromDb.setVenueName(venueName);
+        }
+
+        if (eventTags != null && !eventTags.isEmpty()) {
+            Set<Tag> tags = event.getTags();
+            tags.addAll(eventTags);
+            eventFromDb.setTags(tags);
+        }
+
+        if (contacts != null && !contacts.isEmpty()) {
+            Set<Contact> contactSet = event.getContacts();
+            contactSet.addAll(contacts);
+            eventFromDb.setContacts(contactSet);
+        }
+    }
+    @Transactional
     public void updateEvent(UUID eventId, String name, String postCode, String venueName, Set<Tag>
             eventTags, Set<Organisation> organisations, Set<Contact> contacts) {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalStateException("No event found"));

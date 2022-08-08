@@ -7,6 +7,8 @@ import com.nathandownes.artcrm.organisations.Organisation;
 import com.nathandownes.artcrm.tags.Tag;
 import com.nathandownes.artcrm.utility.JsonModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,16 +39,24 @@ public class EventController {
     }
 
     @PostMapping(path = "/create")
+    @CrossOrigin(origins = "*")
     public void registerNewEvent(@RequestBody Event Event) {
         eventService.addNewEvent(Event);
     }
 
-    @DeleteMapping(path = "/delete/{eventId}")
-    public void deleteEvent(@PathVariable("eventId") UUID eventId) {
-        eventService.deleteEvent(eventId);
+    @DeleteMapping(path = "/deleteMulti")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<Object> deleteMultipleEvents(@RequestBody Set<UUID> eventIds) {
+        try {
+            eventIds.forEach(eventService::deleteEvent);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     @PutMapping(path = "/update/{eventId}")
+    @CrossOrigin(origins = "*")
     public void updateEvent(@PathVariable("eventId") UUID eventId,
                             @RequestParam(required = false) String name,
                             @RequestParam(required = false) String postCode,
@@ -55,6 +65,12 @@ public class EventController {
                             @RequestParam(required = false) Set<Organisation> organisations,
                             @RequestParam(required = false) Set<Contact> contacts) {
         eventService.updateEvent(eventId, name, postCode, venueName, eventTags, organisations, contacts);
+    }
+
+    @PutMapping(path = "/updatejson/{eventId}")
+    @CrossOrigin(origins = "*")
+    public void updateEventJSON(@PathVariable("eventId") UUID eventId, @RequestBody Event event) {
+        eventService.updateEventJson(eventId, event);
     }
 
 }

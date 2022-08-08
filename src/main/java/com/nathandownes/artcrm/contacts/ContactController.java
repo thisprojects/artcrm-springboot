@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Set;
@@ -63,6 +62,7 @@ public class ContactController {
         contactService.deleteContact(contactId);
     }
 
+
     @DeleteMapping(path = "/deleteMulti")
     @CrossOrigin(origins = "*")
     public ResponseEntity<Object> deleteMultipleContacts(@RequestBody Set<UUID> contactIds) {
@@ -73,7 +73,6 @@ public class ContactController {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
-
     @PutMapping(path = "/update/{contactId}")
     public void updateContact(@PathVariable("contactId") UUID contactId,
                               @RequestParam(required = false) String firstName,
