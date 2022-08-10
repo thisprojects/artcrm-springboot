@@ -2,35 +2,39 @@ package com.nathandownes.artcrm.tags;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.nathandownes.artcrm.contacts.Contact;
 import com.nathandownes.artcrm.events.Event;
 import com.nathandownes.artcrm.organisations.Organisation;
+import com.nathandownes.artcrm.utility.JsonModel;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.UUID;
 
 @Table
 @Entity
 public class Tag {
     @Id
-    @SequenceGenerator(
-            name = "tag_sequence",
-            sequenceName = "tag_sequence",
-            allocationSize = 1
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(
+                            name = "uuid_gen_strategy_class",
+                            value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
+                    )
+            }
     )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "tag_sequence"
-    )
-    private long id;
+    @JsonView(JsonModel.CoreData.class)
+    private UUID id;
     private String name;
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
+    public UUID getId() {
+        return id;
     }
 
     public String getName() {

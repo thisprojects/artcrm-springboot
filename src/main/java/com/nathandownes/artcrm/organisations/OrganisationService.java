@@ -67,6 +67,42 @@ public class OrganisationService {
         }
     }
 
+    @Transactional
+    public void updateOrganisationJson(UUID orgId, Organisation organisation) {
+        Organisation orgFromDb = organisationRepository.findById(orgId).orElseThrow(() -> new IllegalStateException("No Organisation found"));
+
+        String name = organisation.getName();
+        String email = organisation.getEmail();
+        String postCode = organisation.getPostCode();
+        Set<Tag> orgTags = organisation.getOrganisationTags();
+        Set<Contact> contacts = organisation.getContacts();
+
+
+        if (name != null && name.length() > 0 && !Objects.equals(name, orgFromDb.getName())) {
+            orgFromDb.setName(name);
+        }
+
+        if (postCode != null && postCode.length() > 0 && !Objects.equals(postCode, orgFromDb.getPostCode())) {
+            orgFromDb.setPostCode(postCode);
+        }
+
+        if (email != null && email.length() > 0 && !Objects.equals(email, orgFromDb.getEmail())) {
+            orgFromDb.setEmail(email);
+        }
+
+        if (orgTags != null && !orgTags.isEmpty()) {
+            Set<Tag> tags = organisation.getOrganisationTags();
+            tags.addAll(orgTags);
+            orgFromDb.setOrganisationTags(tags);
+        }
+
+        if (contacts != null && !contacts.isEmpty()) {
+            Set<Contact> contactSet = organisation.getContacts();
+            contactSet.addAll(contacts);
+            orgFromDb.setContacts(contactSet);
+        }
+    }
+
 
     @Transactional
     public void updateOrganisation(UUID orgId, String name, String postCode, String email, Set<Tag>
