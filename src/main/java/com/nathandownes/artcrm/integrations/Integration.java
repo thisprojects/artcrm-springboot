@@ -1,24 +1,32 @@
 package com.nathandownes.artcrm.integrations;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.nathandownes.artcrm.utility.JsonModel;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.UUID;
 
 @Table
 @Entity
 public class Integration {
     @Id
-    @SequenceGenerator(
-            name = "integration_sequence",
-            sequenceName = "integration_sequence",
-            allocationSize = 1
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(
+                            name = "uuid_gen_strategy_class",
+                            value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
+                    )
+            }
     )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "integration_sequence"
-    )
-    private long id;
+    @JsonView(JsonModel.CoreData.class)
+    private UUID id;
     private String name;
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
