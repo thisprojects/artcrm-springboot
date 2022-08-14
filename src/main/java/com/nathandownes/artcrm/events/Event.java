@@ -10,6 +10,8 @@ import com.nathandownes.artcrm.utility.JsonModel;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -44,6 +46,11 @@ public class Event {
     @JsonView(JsonModel.CoreData.class)
     private String venueName;
 
+    @JsonView(JsonModel.CoreData.class)
+    private LocalDate eventDate;
+
+    private LocalDate created;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "event_tags",
@@ -69,7 +76,7 @@ public class Event {
     public Event() {
     }
 
-    public Event(UUID id, String name, String postCode, String venueName, Set<Tag> eventTags, Set<Organisation> organisation, Set<Contact> contacts) {
+    public Event(UUID id, String name, String postCode, String venueName, LocalDate date, Set<Tag> eventTags, Set<Organisation> organisation, Set<Contact> contacts) {
         this.id = id;
         this.name = name;
         this.postCode = postCode;
@@ -77,11 +84,21 @@ public class Event {
         this.eventTags = eventTags;
         this.organisation = organisation;
         this.contacts = contacts;
+        this.eventDate = date;
+        this.created = LocalDate.now();
     }
 
 
     public UUID getId() {
         return id;
+    }
+
+    public LocalDate getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(LocalDate eventDate) {
+        this.eventDate = eventDate;
     }
 
     public void setId(UUID id) {

@@ -8,6 +8,7 @@ import com.nathandownes.artcrm.utility.JsonModel;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
@@ -41,6 +42,8 @@ public class Contact {
     private String email;
     @JsonView(JsonModel.CoreData.class)
     private Integer age;
+
+    private LocalDate created;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "contact_tags",
@@ -61,7 +64,7 @@ public class Contact {
     private Set<Event> events;
 
 
-    public Contact(UUID id, String firstName, String email, String lastName, String postCode, Integer age, Set<Tag> contactTags, Set<Organisation> organisations, Set<Event> events) {
+    public Contact(UUID id, String firstName, String email, String lastName, String postCode, Integer age, LocalDate created, Set<Tag> contactTags, Set<Organisation> organisations, Set<Event> events) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -71,9 +74,14 @@ public class Contact {
         this.contactTags = contactTags;
         this.organisations = organisations;
         this.events = events;
+        this.created = LocalDate.now();
     }
 
     public Contact() {
+    }
+
+    public void setCreated() {
+        this.created = LocalDate.now();
     }
 
     public String getEmail() {

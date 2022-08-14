@@ -42,6 +42,7 @@ public class ContactService {
         } else if (contact.getEmail() == null) {
             throw new IllegalStateException("Email was not provided");
         } else {
+            contact.setCreated();
             contactRepository.save(contact);
         }
     }

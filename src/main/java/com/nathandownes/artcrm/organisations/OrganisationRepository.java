@@ -17,4 +17,6 @@ public interface OrganisationRepository extends JpaRepository<Organisation, UUID
 
     @Query("SELECT s from Organisation s WHERE s.email =?1")
     Optional<Organisation> findOrganisationByEmail(String email);
+
+    long count();
 }
