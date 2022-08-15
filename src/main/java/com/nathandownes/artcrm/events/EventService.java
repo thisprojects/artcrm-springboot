@@ -87,13 +87,13 @@ public class EventService {
         }
 
         if (eventTags != null && !eventTags.isEmpty()) {
-            Set<Tag> tags = event.getTags();
+            Set<Tag> tags = eventFromDb.getTags();
             tags.addAll(eventTags);
             eventFromDb.setTags(tags);
         }
 
         if (contacts != null && !contacts.isEmpty()) {
-            Set<Contact> contactSet = event.getContacts();
+            Set<Contact> contactSet = eventFromDb.getContacts();
             contactSet.addAll(contacts);
             eventFromDb.setContacts(contactSet);
         }

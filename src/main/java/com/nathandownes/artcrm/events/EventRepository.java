@@ -17,5 +17,5 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
     Optional<Event> findEventByName(String email);
     long count();
 
-    Set<Event> findTop5ByOrderByCreatedDesc();
+    Set<Event> findTop5ByOrderByIdDesc();
 }

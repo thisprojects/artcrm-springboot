@@ -1,8 +1,4 @@
 package com.nathandownes.artcrm.analysis;
-
-import com.nathandownes.artcrm.contacts.Contact;
-import com.nathandownes.artcrm.events.Event;
-
 import java.util.Set;
 
 public class Analysis {
@@ -10,14 +6,14 @@ public class Analysis {
     Long numberOfEvents;
     Long numberOfContacts;
     Long numberOfOrganisations;
-    Set<Event> fiveMostRecentEVents;
-    Set<Contact> lastFiveContactSignups;
+    Set<EventStats> mostRecentEvents;
+    Set<ContactAnalysis> lastFiveContactSignups;
 
-    public Analysis(Long numberOfEvents, Long numberOfContacts, Long numberOfOrganisations, Set<Event> fiveMostRecentEVents, Set<Contact> lastFiveContactSignups) {
+    public Analysis(Long numberOfEvents, Long numberOfContacts, Long numberOfOrganisations, Set<EventStats> mostRecentEvents, Set<ContactAnalysis> lastFiveContactSignups) {
         this.numberOfEvents = numberOfEvents;
         this.numberOfContacts = numberOfContacts;
         this.numberOfOrganisations = numberOfOrganisations;
-        this.fiveMostRecentEVents = fiveMostRecentEVents;
+        this.mostRecentEvents = mostRecentEvents;
         this.lastFiveContactSignups = lastFiveContactSignups;
     }
 
@@ -45,19 +41,20 @@ public class Analysis {
         this.numberOfOrganisations = numberOfOrganisations;
     }
 
-    public Set<Event> getFiveMostRecentEVents() {
-        return fiveMostRecentEVents;
+    public Set<EventStats> getMostRecentEvents() {
+        return this.mostRecentEvents;
     }
 
-    public void setFiveMostRecentEVents(Set<Event> fiveMostRecentEVents) {
-        this.fiveMostRecentEVents = fiveMostRecentEVents;
+    public void setMostRecentEvents(Set<EventStats> mostRecentEvents) {
+        this.mostRecentEvents = mostRecentEvents;
     }
 
-    public Set<Contact> getLastFiveContactSignups() {
+    public Set<ContactAnalysis> getLastFiveContactSignups() {
         return lastFiveContactSignups;
     }
 
-    public void setLastFiveContactSignups(Set<Contact> lastFiveContactSignups) {
+    public void setLastFiveContactSignups(Set<ContactAnalysis> lastFiveContactSignups) {
         this.lastFiveContactSignups = lastFiveContactSignups;
     }
 }
+
