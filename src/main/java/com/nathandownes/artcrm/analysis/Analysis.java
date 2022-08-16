@@ -7,14 +7,25 @@ public class Analysis {
     Long numberOfContacts;
     Long numberOfOrganisations;
     Set<EventStats> mostRecentEvents;
-    Set<ContactAnalysis> lastFiveContactSignups;
+    Set<ContactAnalysis> ageDemographic;
+    Set<String> postcodes;
 
-    public Analysis(Long numberOfEvents, Long numberOfContacts, Long numberOfOrganisations, Set<EventStats> mostRecentEvents, Set<ContactAnalysis> lastFiveContactSignups) {
+
+    public Analysis(Long numberOfEvents, Long numberOfContacts, Long numberOfOrganisations, Set<EventStats> mostRecentEvents, Set<ContactAnalysis> ageDemographic, Set<String> postcodes) {
         this.numberOfEvents = numberOfEvents;
         this.numberOfContacts = numberOfContacts;
         this.numberOfOrganisations = numberOfOrganisations;
         this.mostRecentEvents = mostRecentEvents;
-        this.lastFiveContactSignups = lastFiveContactSignups;
+        this.ageDemographic = ageDemographic;
+        this.postcodes = postcodes;
+    }
+
+    public Set<String> getPostcodes() {
+        return postcodes;
+    }
+
+    public void setPostcodes(Set<String> postcodes) {
+        this.postcodes = postcodes;
     }
 
     public Long getNumberOfEvents() {
@@ -49,12 +60,12 @@ public class Analysis {
         this.mostRecentEvents = mostRecentEvents;
     }
 
-    public Set<ContactAnalysis> getLastFiveContactSignups() {
-        return lastFiveContactSignups;
+    public Set<ContactAnalysis> getAgeDemographic() {
+        return ageDemographic;
     }
 
-    public void setLastFiveContactSignups(Set<ContactAnalysis> lastFiveContactSignups) {
-        this.lastFiveContactSignups = lastFiveContactSignups;
+    public void setAgeDemographic(Set<ContactAnalysis> ageDemographic) {
+        this.ageDemographic = ageDemographic;
     }
 }
 

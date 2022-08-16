@@ -7,6 +7,8 @@ import com.nathandownes.artcrm.events.EventRepository;
 import com.nathandownes.artcrm.organisations.OrganisationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,9 +30,9 @@ public class AnalysisService {
         Set<Event> topFiveEvents = eventRepository.findTop5ByOrderByIdDesc();
         Set<EventStats> parsedTopFiveEvents = topFiveEvents.stream().map(item -> new EventStats(item.getName(), item.getContacts().size())).collect(Collectors.toSet());
 
-        Set<Contact> topFiveContacts = contactRepository.findTop5ByOrderByIdDesc();
-        Set<ContactAnalysis> parsedTopFiveContacts = topFiveContacts.stream().map(item -> new ContactAnalysis(item.getFirstName(), item.getLastName(), item.getPostCode())).collect(Collectors.toSet());
+        List<Contact> allContacts = contactRepository.findAll();
+        Set<String> allPostcodes = allContacts.stream().map(item -> item.getPostCode()).collect(Collectors.toSet());
 
-        return new Analysis(eventRepository.count(), contactRepository.count(), organisationRepository.count(), parsedTopFiveEvents, parsedTopFiveContacts);
+        return new Analysis(eventRepository.count(), contactRepository.count(), organisationRepository.count(), parsedTopFiveEvents, contactRepository.findAllByOrderByIdDesc(), allPostcodes);
     }
 }

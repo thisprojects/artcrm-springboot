@@ -1,5 +1,6 @@
 package com.nathandownes.artcrm.contacts;
 
+import com.nathandownes.artcrm.analysis.ContactAnalysis;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,5 +18,5 @@ public interface ContactRepository extends JpaRepository<Contact, UUID> {
 
     long count();
 
-    Set<Contact> findTop5ByOrderByIdDesc();
+    Set<ContactAnalysis> findAllByOrderByIdDesc();
 }
