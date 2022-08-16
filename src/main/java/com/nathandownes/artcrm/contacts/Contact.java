@@ -51,20 +51,16 @@ public class Contact {
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
     private Set<Tag> contactTags;
-    @ManyToMany(mappedBy = "contacts", fetch = FetchType.LAZY,
-            cascade =
-                    CascadeType.MERGE
-    )
-    private Set<Organisation> organisations;
-    @ManyToMany(mappedBy = "contacts",
-            fetch = FetchType.LAZY,
-            cascade =
-                    CascadeType.MERGE
-    )
-    private Set<Event> events;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "contact_attendance",
+            joinColumns = @JoinColumn(name = "contact_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "attendance_id", referencedColumnName = "id")
+    )
+    private Set<Attendance> attendance;
 
-    public Contact(UUID id, String firstName, String email, String lastName, String postCode, Integer age, LocalDate created, Set<Tag> contactTags, Set<Organisation> organisations, Set<Event> events) {
+    public Contact(UUID id, String firstName, String email, String lastName, String postCode, Integer age, LocalDate created, Set<Tag> contactTags, Set<Attendance> attendance) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -72,12 +68,23 @@ public class Contact {
         this.email = email;
         this.age = age;
         this.contactTags = contactTags;
-        this.organisations = organisations;
-        this.events = events;
+        this.attendance = attendance;
         this.created = LocalDate.now();
     }
 
     public Contact() {
+    }
+
+    public Set<Attendance> getAttendance() {
+        return attendance;
+    }
+
+    public void setAttendance(Set<Attendance> attendance) {
+        this.attendance = attendance;
+    }
+
+    public void addAttendance(Attendance event) {
+        this.attendance.add(event);
     }
 
     public void setCreated() {
@@ -92,13 +99,9 @@ public class Contact {
         this.email = email;
     }
 
-    public void removeOrganisations() {
-        this.organisations.clear();
-    }
 
-    public void removeEvents() {
-        this.events.clear();
-    }
+
+
 
     public void removeTags() {
         this.contactTags.clear();
@@ -148,21 +151,7 @@ public class Contact {
         this.contactTags = contactTags;
     }
 
-    public Set<Organisation> getOrganisations() {
-        return organisations;
-    }
 
-    public void setOrganisations(Set<Organisation> organisations) {
-        this.organisations = organisations;
-    }
-
-    public Set<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(Set<Event> events) {
-        this.events = events;
-    }
 
     @Override
     public String toString() {

@@ -36,12 +36,7 @@ public class OrganisationService {
         }
     }
 
-    public void deleteEventRelationships(Set<Event> events) {
-        for (Event event : events) {
-            Event eventToFind = eventRepository.findById(event.getId()).orElseThrow(() -> new IllegalStateException("Event not found"));
-            eventToFind.removeOrganisations();
-        }
-    }
+
 
     @Transactional
     public void deleteOrganisation(UUID orgId) {
@@ -49,15 +44,12 @@ public class OrganisationService {
         if (organisationRepository.existsById(orgId)) {
             Organisation org = organisationRepository.findOrganisationById(orgId).orElseThrow(() -> new IllegalStateException("Organisation not found"));
             Set<Contact> contacts = org.getContacts();
-            Set<Event> events = org.getEvents();
+
             Set<Tag> orgTags = org.getOrganisationTags();
             if (!contacts.isEmpty()) {
                 org.removeContacts();
             }
-            if (!events.isEmpty()) {
-                deleteEventRelationships(events);
-                org.removeEvents();
-            }
+
             if (!orgTags.isEmpty()) {
                 org.removeTags();
             }
@@ -133,11 +125,6 @@ public class OrganisationService {
             organisation.setContacts(currentContacts);
         }
 
-        if (events != null && !events.isEmpty()) {
-            Set<Event> eventSet = organisation.getEvents();
-            eventSet.addAll(events);
-            organisation.setEvents(eventSet);
-        }
     }
 
 

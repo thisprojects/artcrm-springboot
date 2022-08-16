@@ -66,17 +66,11 @@ public class ContactService {
 
         if (contactRepository.existsById(contactId)) {
             Contact contact = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("Contact not found"));
-            Set<Organisation> orgs = contact.getOrganisations();
-            Set<Event> events = contact.getEvents();
+
+
             Set<Tag> contactTags = contact.getTags();
-            if (!orgs.isEmpty()) {
-                deleteOrgRelationships(orgs);
-                contact.removeOrganisations();
-            }
-            if (!events.isEmpty()) {
-                deleteEventRelationships(events);
-                contact.removeEvents();
-            }
+
+
             if (!contactTags.isEmpty()) {
                 contact.removeTags();
             }
@@ -117,17 +111,6 @@ public class ContactService {
             contact.setTags(tags);
         }
 
-        if (organisations != null && !organisations.isEmpty()) {
-            Set<Organisation> orgs = contact.getOrganisations();
-            orgs.addAll(organisations);
-            contact.setOrganisations(orgs);
-        }
-
-        if (events != null && !events.isEmpty()) {
-            Set<Event> eventSet = contact.getEvents();
-            eventSet.addAll(events);
-            contact.setEvents(eventSet);
-        }
     }
 
     @Transactional
@@ -140,8 +123,7 @@ public class ContactService {
         String email = contact.getEmail();
         Integer age = contact.getAge();
         Set<Tag> contactTags = contact.getTags();
-        Set<Organisation> organisations = contact.getOrganisations();
-        Set<Event> events = contact.getEvents();
+
 
         if (firstName != null && firstName.length() > 0 && !Objects.equals(firstName, contactFromDb.getFirstName())) {
             contactFromDb.setFirstName(firstName);
@@ -169,17 +151,6 @@ public class ContactService {
             contactFromDb.setTags(tags);
         }
 
-        if (organisations != null && !organisations.isEmpty()) {
-            Set<Organisation> orgs = contact.getOrganisations();
-            orgs.addAll(organisations);
-            contactFromDb.setOrganisations(orgs);
-        }
-
-        if (events != null && !events.isEmpty()) {
-            Set<Event> eventSet = contact.getEvents();
-            eventSet.addAll(events);
-            contactFromDb.setEvents(eventSet);
-        }
     }
 
 

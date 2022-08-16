@@ -61,13 +61,6 @@ public class Event {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
-            name = "event_organisations",
-            joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "organisation_id"))
-    private Set<Organisation> organisation;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinTable(
             name = "event_contacts",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "contact_id"))
@@ -76,13 +69,13 @@ public class Event {
     public Event() {
     }
 
-    public Event(UUID id, String name, String postCode, String venueName, LocalDate date, Set<Tag> eventTags, Set<Organisation> organisation, Set<Contact> contacts) {
+    public Event(UUID id, String name, String postCode, String venueName, LocalDate date, Set<Tag> eventTags, Set<Contact> contacts) {
         this.id = id;
         this.name = name;
         this.postCode = postCode;
         this.venueName = venueName;
         this.eventTags = eventTags;
-        this.organisation = organisation;
+
         this.contacts = contacts;
         this.eventDate = date;
         this.created = LocalDate.now();
@@ -129,14 +122,6 @@ public class Event {
         this.venueName = venueName;
     }
 
-    public Set<Organisation> getOrganisation() {
-        return organisation;
-    }
-
-    public void setOrganisation(Set<Organisation> organisation) {
-        this.organisation = organisation;
-    }
-
     public Set<Tag> getTags() {
         return eventTags;
     }
@@ -158,10 +143,6 @@ public class Event {
         return "Event{" +
                 "eventName='" + name + '\'' +
                 '}';
-    }
-
-    public void removeOrganisations() {
-        this.organisation.clear();
     }
 
     public void removeContacts() {

@@ -40,8 +40,6 @@ public class Organisation {
     private String postCode;
     @JsonView(JsonModel.CoreData.class)
     private String email;
-    @ManyToMany(mappedBy = "organisation", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private Set<Event> events;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "organisation_tags",
@@ -56,11 +54,11 @@ public class Organisation {
             inverseJoinColumns = @JoinColumn(name = "contact_id", referencedColumnName = "id"))
     private Set<Contact> contacts;
 
-    public Organisation(UUID id, String name, String postCode, Set<Event> events, Set<Tag> organisationTags, Set<Contact> contacts) {
+    public Organisation(UUID id, String name, String postCode, Set<Tag> organisationTags, Set<Contact> contacts) {
         this.id = id;
         this.name = name;
         this.postCode = postCode;
-        this.events = events;
+
         this.organisationTags = organisationTags;
         this.contacts = contacts;
     }
@@ -105,13 +103,9 @@ public class Organisation {
         this.postCode = postCode;
     }
 
-    public Set<Event> getEvents() {
-        return events;
-    }
 
-    public void setEvents(Set<Event> events) {
-        this.events = events;
-    }
+
+
 
     public Set<Tag> getOrganisationTags() {
         return organisationTags;
@@ -133,7 +127,5 @@ public class Organisation {
         this.organisationTags.clear();
     }
 
-    public void removeEvents() {
-        this.events.clear();
-    }
+
 }

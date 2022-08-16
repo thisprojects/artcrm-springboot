@@ -1,7 +1,8 @@
 package com.nathandownes.artcrm.events;
 
+import com.nathandownes.artcrm.contacts.Attendance;
 import com.nathandownes.artcrm.contacts.Contact;
-import com.nathandownes.artcrm.events.Event;
+import com.nathandownes.artcrm.contacts.ContactRepository;
 import com.nathandownes.artcrm.organisations.Organisation;
 import com.nathandownes.artcrm.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import java.util.*;
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final ContactRepository contactRepository;
 
     @Autowired
-    public EventService(EventRepository EventRepository) {
+    public EventService(EventRepository EventRepository, ContactRepository contactRepository) {
         this.eventRepository = EventRepository;
+        this.contactRepository = contactRepository;
     }
 
     public List<Event> getEvents() {
@@ -44,12 +47,9 @@ public class EventService {
 
         if (eventRepository.existsById(eventId)) {
             Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalStateException("Event not found"));
-            Set<Organisation> orgs = event.getOrganisation();
+
             Set<Contact> contacts = event.getContacts();
             Set<Tag> eventTags = event.getTags();
-            if (!orgs.isEmpty()) {
-                event.removeOrganisations();
-            }
             if (!contacts.isEmpty()) {
                 event.removeContacts();
             }
@@ -96,7 +96,18 @@ public class EventService {
             Set<Contact> contactSet = eventFromDb.getContacts();
             contactSet.addAll(contacts);
             eventFromDb.setContacts(contactSet);
+            contactSet.stream().forEach(item -> addAttendance(item.getId(), eventFromDb));
         }
+    }
+
+
+    @Transactional
+    public void addAttendance (UUID contactId, Event event) {
+        Contact contact = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("No User found"));
+        Set<Attendance> contactsAttendance = contact.getAttendance();
+        contactsAttendance.add(new Attendance(event.getName()));
+        contact.setAttendance(contactsAttendance);
+        contactRepository.save(contact);
     }
     @Transactional
     public void updateEvent(UUID eventId, String name, String postCode, String venueName, Set<Tag>
@@ -121,16 +132,11 @@ public class EventService {
             event.setTags(tags);
         }
 
-        if (organisations != null && !organisations.isEmpty()) {
-            Set<Organisation> orgs = event.getOrganisation();
-            orgs.addAll(organisations);
-            event.setOrganisation(orgs);
-        }
-
         if (contacts != null && !contacts.isEmpty()) {
             Set<Contact> contactSet = event.getContacts();
             contactSet.addAll(contacts);
             event.setContacts(contactSet);
+            contactSet.stream().forEach(item -> addAttendance(item.getId(), event));
         }
     }
 
