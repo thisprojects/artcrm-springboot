@@ -42,6 +42,14 @@ public class EventService {
         return eventRepository.findById(eventId).orElseThrow(() -> new IllegalStateException("No Event found"));
     }
 
+    public void deleteContactRelationship (UUID contactId, UUID eventId) {
+        Contact currContact = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("Contact not found"));
+        Set<Attendance> attendance = currContact.getAttendance();
+        attendance.removeIf(item -> item.getEventId().equals(eventId));
+        currContact.setAttendance(attendance);
+        contactRepository.save(currContact);
+    }
+
     @Transactional
     public void deleteEvent(UUID eventId) {
 
@@ -51,6 +59,7 @@ public class EventService {
             Set<Contact> contacts = event.getContacts();
             Set<Tag> eventTags = event.getTags();
             if (!contacts.isEmpty()) {
+                contacts.stream().forEach(item -> deleteContactRelationship(item.getId(), event.getId()));
                 event.removeContacts();
             }
             if (!eventTags.isEmpty()) {
@@ -105,7 +114,7 @@ public class EventService {
     public void addAttendance (UUID contactId, Event event) {
         Contact contact = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("No User found"));
         Set<Attendance> contactsAttendance = contact.getAttendance();
-        contactsAttendance.add(new Attendance(event.getName()));
+        contactsAttendance.add(new Attendance(event.getName(), event.getId()));
         contact.setAttendance(contactsAttendance);
         contactRepository.save(contact);
     }

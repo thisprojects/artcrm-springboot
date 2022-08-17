@@ -28,17 +28,28 @@ public class Attendance {
     )
     private UUID id;
 
+    private UUID eventId;
+
     private String eventName;
 
     public Attendance() {
     }
 
-    public Attendance(String eventName) {
+    public Attendance(String eventName, UUID eventId) {
         this.eventName = eventName;
+        this.eventId = eventId;
     }
 
     public String getEventName() {
         return eventName;
+    }
+
+    public UUID getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(UUID eventId) {
+        this.eventId = eventId;
     }
 
     public void setEventName(String eventName) {
