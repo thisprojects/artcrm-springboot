@@ -154,7 +154,7 @@ public class ContactService {
     }
 
 
-    public Contact getSingleContact(UUID contactId) {
-        return contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("No contact found"));
+    public SingleContactView getSingleContact(UUID contactId) {
+        return contactRepository.findSingleById(contactId).orElseThrow(() -> new IllegalStateException("No contact found"));
     }
 }

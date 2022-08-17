@@ -34,7 +34,7 @@ public class ContactController {
 
     @GetMapping(path = "/getSingle/{contactId}")
     @CrossOrigin(origins = "*")
-    public Contact getSingleContacts(@PathVariable("contactId") UUID contactId) {
+    public SingleContactView getSingleContact(@PathVariable("contactId") UUID contactId) {
         return contactService.getSingleContact(contactId);
     }
 

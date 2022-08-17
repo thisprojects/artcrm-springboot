@@ -38,6 +38,12 @@ public class EventController {
         return eventService.getSingleEvent(eventId);
     }
 
+    @GetMapping(path ="/getShortEvents")
+    @CrossOrigin(origins = "*")
+    public List<ShortEvent> getShortEventsEvents() {
+        return eventService.getShortEvents();
+    }
+
     @PostMapping(path = "/create")
     @CrossOrigin(origins = "*")
     public void registerNewEvent(@RequestBody Event Event) {
@@ -64,7 +70,7 @@ public class EventController {
                             @RequestParam(required = false) Set<Tag> eventTags,
                             @RequestParam(required = false) Set<Organisation> organisations,
                             @RequestParam(required = false) Set<Contact> contacts) {
-        eventService.updateEvent(eventId, name, postCode, venueName, eventTags, organisations, contacts);
+        eventService.updateEvent(eventId, name, postCode, venueName, eventTags, contacts);
     }
 
     @PutMapping(path = "/updatejson/{eventId}")

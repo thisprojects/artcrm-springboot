@@ -1,8 +1,6 @@
 package com.nathandownes.artcrm.events;
 
-import com.nathandownes.artcrm.contacts.Attendance;
 import com.nathandownes.artcrm.contacts.Contact;
-import com.nathandownes.artcrm.contacts.ContactRepository;
 import com.nathandownes.artcrm.organisations.Organisation;
 import com.nathandownes.artcrm.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +13,18 @@ import java.util.*;
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final ContactRepository contactRepository;
+
 
     @Autowired
-    public EventService(EventRepository EventRepository, ContactRepository contactRepository) {
+    public EventService(EventRepository EventRepository) {
         this.eventRepository = EventRepository;
-        this.contactRepository = contactRepository;
     }
 
     public List<Event> getEvents() {
         return eventRepository.findAll();
     }
+
+    public List<ShortEvent> getShortEvents() {return eventRepository.findAllByOrderByIdDesc();}
 
     public void addNewEvent(Event event) {
         Optional<Event> EventByName = eventRepository
@@ -42,13 +41,6 @@ public class EventService {
         return eventRepository.findById(eventId).orElseThrow(() -> new IllegalStateException("No Event found"));
     }
 
-    public void deleteContactRelationship (UUID contactId, UUID eventId) {
-        Contact currContact = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("Contact not found"));
-        Set<Attendance> attendance = currContact.getAttendance();
-        attendance.removeIf(item -> item.getEventId().equals(eventId));
-        currContact.setAttendance(attendance);
-        contactRepository.save(currContact);
-    }
 
     @Transactional
     public void deleteEvent(UUID eventId) {
@@ -59,7 +51,6 @@ public class EventService {
             Set<Contact> contacts = event.getContacts();
             Set<Tag> eventTags = event.getTags();
             if (!contacts.isEmpty()) {
-                contacts.stream().forEach(item -> deleteContactRelationship(item.getId(), event.getId()));
                 event.removeContacts();
             }
             if (!eventTags.isEmpty()) {
@@ -105,22 +96,15 @@ public class EventService {
             Set<Contact> contactSet = eventFromDb.getContacts();
             contactSet.addAll(contacts);
             eventFromDb.setContacts(contactSet);
-            contactSet.stream().forEach(item -> addAttendance(item.getId(), eventFromDb));
         }
     }
 
 
-    @Transactional
-    public void addAttendance (UUID contactId, Event event) {
-        Contact contact = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("No User found"));
-        Set<Attendance> contactsAttendance = contact.getAttendance();
-        contactsAttendance.add(new Attendance(event.getName(), event.getId()));
-        contact.setAttendance(contactsAttendance);
-        contactRepository.save(contact);
-    }
+
+
     @Transactional
     public void updateEvent(UUID eventId, String name, String postCode, String venueName, Set<Tag>
-            eventTags, Set<Organisation> organisations, Set<Contact> contacts) {
+            eventTags, Set<Contact> contacts) {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalStateException("No event found"));
 
         if (name != null && name.length() > 0 && !Objects.equals(name, event.getName())) {
@@ -145,7 +129,6 @@ public class EventService {
             Set<Contact> contactSet = event.getContacts();
             contactSet.addAll(contacts);
             event.setContacts(contactSet);
-            contactSet.stream().forEach(item -> addAttendance(item.getId(), event));
         }
     }
 

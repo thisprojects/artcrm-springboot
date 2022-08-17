@@ -1,6 +1,5 @@
 package com.nathandownes.artcrm.organisations;
 
-import com.nathandownes.artcrm.contacts.Attendance;
 import com.nathandownes.artcrm.contacts.Contact;
 import com.nathandownes.artcrm.contacts.ContactRepository;
 import com.nathandownes.artcrm.contacts.ShortOrg;

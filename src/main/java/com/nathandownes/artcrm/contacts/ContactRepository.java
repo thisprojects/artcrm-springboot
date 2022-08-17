@@ -16,6 +16,9 @@ public interface ContactRepository extends JpaRepository<Contact, UUID> {
     @Query("SELECT s from Contact s WHERE s.email = ?1")
     Optional<Contact> findContactByEmail(String email);
 
+    @Query("SELECT s from Contact s WHERE s.id =?1")
+    Optional<SingleContactView> findSingleById(UUID id);
+
     long count();
 
     Set<ContactAnalysis> findAllByOrderByIdDesc();
