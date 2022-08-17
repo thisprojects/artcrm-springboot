@@ -1,6 +1,7 @@
 package com.nathandownes.artcrm.contacts;
 
 import com.nathandownes.artcrm.events.ShortEvent;
+import com.nathandownes.artcrm.organisations.ShortOrg;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -13,4 +14,5 @@ public interface SingleContactView {
     String getPostCode();
     String getAge();
     Set<ShortEvent> getEvents();
+    Set<ShortOrg> getOrganisations();
 }

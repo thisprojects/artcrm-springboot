@@ -2,6 +2,7 @@ package com.nathandownes.artcrm.contacts;
 
 import com.fasterxml.jackson.annotation.*;
 import com.nathandownes.artcrm.events.Event;
+import com.nathandownes.artcrm.organisations.Organisation;
 import com.nathandownes.artcrm.tags.Tag;
 import com.nathandownes.artcrm.utility.JsonModel;
 import org.hibernate.annotations.GenericGenerator;
@@ -55,15 +56,11 @@ public class Contact {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "contacts")
     private Set<Event> events;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinTable(
-            name = "contact_shortorg",
-            joinColumns = @JoinColumn(name = "contact_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "shortorg_id", referencedColumnName = "id")
-    )
-    private Set<ShortOrg> organisations;
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "contacts")
+    private Set<Organisation> organisations;
 
-    public Contact(UUID id, String firstName, String email, String lastName, String postCode, Integer age, LocalDate created, Set<Tag> contactTags, Set<Event> events, Set<ShortOrg> organisations) {
+    public Contact(UUID id, String firstName, String email, String lastName, String postCode, Integer age, LocalDate created, Set<Tag> contactTags, Set<Event> events, Set<Organisation> organisations) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -153,11 +150,11 @@ public class Contact {
                 '}';
     }
 
-    public Set<ShortOrg> getOrganisations() {
+    public Set<Organisation> getOrganisations() {
         return organisations;
     }
 
-    public void setOrganisations(Set<ShortOrg> organisations) {
+    public void setOrganisations(Set<Organisation> organisations) {
         this.organisations = organisations;
     }
 

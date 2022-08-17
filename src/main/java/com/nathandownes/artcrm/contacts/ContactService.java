@@ -69,7 +69,16 @@ public class ContactService {
 
 
             Set<Tag> contactTags = contact.getTags();
+            Set<Event> contactEvents = contact.getEvents();
+            Set<Organisation> contactOrgs = contact.getOrganisations();
 
+            if (!contactOrgs.isEmpty()) {
+                deleteOrgRelationships(contactOrgs);
+            }
+
+            if (!contactEvents.isEmpty()) {
+                deleteEventRelationships(contactEvents);
+            }
 
             if (!contactTags.isEmpty()) {
                 contact.removeTags();
