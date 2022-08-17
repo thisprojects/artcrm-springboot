@@ -1,6 +1,9 @@
 package com.nathandownes.artcrm.organisations;
 
+import com.nathandownes.artcrm.contacts.Attendance;
 import com.nathandownes.artcrm.contacts.Contact;
+import com.nathandownes.artcrm.contacts.ContactRepository;
+import com.nathandownes.artcrm.contacts.ShortOrg;
 import com.nathandownes.artcrm.events.Event;
 import com.nathandownes.artcrm.events.EventRepository;
 import com.nathandownes.artcrm.tags.Tag;
@@ -15,11 +18,13 @@ public class OrganisationService {
 
     private final OrganisationRepository organisationRepository;
     private final EventRepository eventRepository;
+    private final ContactRepository contactRepository;
 
     @Autowired
-    public OrganisationService(OrganisationRepository organisationRepository, EventRepository eventRepository) {
+    public OrganisationService(OrganisationRepository organisationRepository, EventRepository eventRepository, ContactRepository contactRepository) {
         this.organisationRepository = organisationRepository;
         this.eventRepository = eventRepository;
+        this.contactRepository = contactRepository;
     }
 
     public List<Organisation> getOrganisations() {
@@ -37,16 +42,23 @@ public class OrganisationService {
     }
 
 
-
+    public void deleteContactRelationship (UUID contactId, UUID orgId) {
+        Contact currContact = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("Contact not found"));
+        Set<ShortOrg> shortOrg = currContact.getOrganisations();
+        shortOrg.removeIf(item -> item.getOrgId().equals(orgId));
+        currContact.setOrganisations(shortOrg);
+        contactRepository.save(currContact);
+    }
     @Transactional
     public void deleteOrganisation(UUID orgId) {
 
         if (organisationRepository.existsById(orgId)) {
             Organisation org = organisationRepository.findOrganisationById(orgId).orElseThrow(() -> new IllegalStateException("Organisation not found"));
             Set<Contact> contacts = org.getContacts();
-
             Set<Tag> orgTags = org.getOrganisationTags();
+
             if (!contacts.isEmpty()) {
+                contacts.stream().forEach(item -> deleteContactRelationship(item.getId(), org.getId()));
                 org.removeContacts();
             }
 
@@ -92,9 +104,18 @@ public class OrganisationService {
             Set<Contact> contactSet = organisation.getContacts();
             contactSet.addAll(contacts);
             orgFromDb.setContacts(contactSet);
+            contactSet.stream().forEach(item -> addShortOrg(item.getId(), orgFromDb));
         }
     }
 
+    @Transactional
+    public void addShortOrg (UUID contactId, Organisation org) {
+        Contact contact = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("No User found"));
+        Set<ShortOrg> contactsOrgs = contact.getOrganisations();
+        contactsOrgs.add(new ShortOrg(org.getName(), org.getId()));
+        contact.setOrganisations(contactsOrgs);
+        contactRepository.save(contact);
+    }
 
     @Transactional
     public void updateOrganisation(UUID orgId, String name, String postCode, String email, Set<Tag>
