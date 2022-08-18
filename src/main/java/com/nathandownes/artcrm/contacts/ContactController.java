@@ -1,8 +1,5 @@
 package com.nathandownes.artcrm.contacts;
-
 import com.fasterxml.jackson.annotation.JsonView;
-import com.nathandownes.artcrm.events.Event;
-import com.nathandownes.artcrm.organisations.Organisation;
 import com.nathandownes.artcrm.tags.Tag;
 import com.nathandownes.artcrm.utility.JsonModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
 
 @RestController
 @RequestMapping(path = "api/v1/contact")
@@ -62,7 +58,6 @@ public class ContactController {
         contactService.deleteContact(contactId);
     }
 
-
     @DeleteMapping(path = "/deleteMulti")
     @CrossOrigin(origins = "*")
     public ResponseEntity<Object> deleteMultipleContacts(@RequestBody Set<UUID> contactIds) {
@@ -80,10 +75,8 @@ public class ContactController {
                               @RequestParam(required = false) String email,
                               @RequestParam(required = false) String postCode,
                               @RequestParam(required = false) Integer age,
-                              @RequestParam(required = false) Set<Tag> contactTags,
-                              @RequestParam(required = false) Set<Organisation> organisations,
-                              @RequestParam(required = false) Set<Event> events) {
-        contactService.updateContact(contactId, email, firstName, lastName, postCode, age, contactTags, organisations, events);
+                              @RequestParam(required = false) Set<Tag> contactTags){
+        contactService.updateContact(contactId, email, firstName, lastName, postCode, age, contactTags);
     }
 
     @PutMapping(path = "/updatejson/{contactId}")

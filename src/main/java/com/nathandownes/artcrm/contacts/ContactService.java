@@ -7,13 +7,7 @@ import com.nathandownes.artcrm.organisations.OrganisationRepository;
 import com.nathandownes.artcrm.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.*;
 
 @Service
@@ -91,7 +85,7 @@ public class ContactService {
 
     @Transactional
     public void updateContact(UUID contactId, String email, String firstName, String lastName, String postCode, Integer age, Set<Tag>
-            contactTags, Set<Organisation> organisations, Set<Event> events) {
+            contactTags) {
         Contact contact = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("No contact found"));
 
         if (firstName != null && firstName.length() > 0 && !Objects.equals(firstName, contact.getFirstName())) {
