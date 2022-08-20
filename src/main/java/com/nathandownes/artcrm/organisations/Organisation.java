@@ -46,7 +46,7 @@ public class Organisation {
             joinColumns = @JoinColumn(name = "organisation_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
-    private Set<Tag> organisationTags;
+    private Set<Tag> tags;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "organisation_contacts",
@@ -54,12 +54,12 @@ public class Organisation {
             inverseJoinColumns = @JoinColumn(name = "contact_id", referencedColumnName = "id"))
     private Set<Contact> contacts;
 
-    public Organisation(UUID id, String name, String postCode, Set<Tag> organisationTags, Set<Contact> contacts) {
+    public Organisation(UUID id, String name, String postCode, Set<Tag> tags, Set<Contact> contacts) {
         this.id = id;
         this.name = name;
         this.postCode = postCode;
 
-        this.organisationTags = organisationTags;
+        this.tags = tags;
         this.contacts = contacts;
     }
 
@@ -103,16 +103,14 @@ public class Organisation {
         this.postCode = postCode;
     }
 
+    public void removeTag(Tag tag) {this.tags.remove(tag);}
 
-
-
-
-    public Set<Tag> getOrganisationTags() {
-        return organisationTags;
+    public Set<Tag> getTags() {
+        return tags;
     }
 
-    public void setOrganisationTags(Set<Tag> organisationTags) {
-        this.organisationTags = organisationTags;
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 
     public Set<Contact> getContacts() {
@@ -124,7 +122,7 @@ public class Organisation {
     }
 
     public void removeTags() {
-        this.organisationTags.clear();
+        this.tags.clear();
     }
 
 

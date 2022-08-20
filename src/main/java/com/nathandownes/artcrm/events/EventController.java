@@ -61,18 +61,6 @@ public class EventController {
         }
     }
 
-    @PutMapping(path = "/update/{eventId}")
-    @CrossOrigin(origins = "*")
-    public void updateEvent(@PathVariable("eventId") UUID eventId,
-                            @RequestParam(required = false) String name,
-                            @RequestParam(required = false) String postCode,
-                            @RequestParam(required = false) String venueName,
-                            @RequestParam(required = false) Set<Tag> eventTags,
-                            @RequestParam(required = false) Set<Organisation> organisations,
-                            @RequestParam(required = false) Set<Contact> contacts) {
-        eventService.updateEvent(eventId, name, postCode, venueName, eventTags, contacts);
-    }
-
     @PutMapping(path = "/updatejson/{eventId}")
     @CrossOrigin(origins = "*")
     public void updateEventJSON(@PathVariable("eventId") UUID eventId, @RequestBody Event event) {

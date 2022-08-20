@@ -36,7 +36,6 @@ public class ContactService {
         } else if (contact.getEmail() == null) {
             throw new IllegalStateException("Email was not provided");
         } else {
-            contact.setCreated();
             contactRepository.save(contact);
         }
     }
@@ -60,7 +59,6 @@ public class ContactService {
 
         if (contactRepository.existsById(contactId)) {
             Contact contact = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("Contact not found"));
-
 
             Set<Tag> contactTags = contact.getTags();
             Set<Event> contactEvents = contact.getEvents();
@@ -126,7 +124,6 @@ public class ContactService {
         String email = contact.getEmail();
         Integer age = contact.getAge();
         Set<Tag> contactTags = contact.getTags();
-
 
         if (firstName != null && firstName.length() > 0 && !Objects.equals(firstName, contactFromDb.getFirstName())) {
             contactFromDb.setFirstName(firstName);

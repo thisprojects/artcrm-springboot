@@ -61,18 +61,6 @@ public class OrganisationController {
         }
     }
 
-    @PutMapping(path = "/update/{orgId}")
-    @CrossOrigin(origins = "*")
-    public void updateOrganisation(@PathVariable("orgId") UUID orgId,
-                                   @RequestParam(required = false) String name,
-                                   @RequestParam(required = false) String postCode,
-                                   @RequestParam(required = false) String email,
-                                   @RequestParam(required = false) Set<Tag> organisationTags,
-                                   @RequestParam(required = false) Set<Event> events,
-                                   @RequestParam(required = false) Set<Contact> contacts) {
-        organisationService.updateOrganisation(orgId, name, postCode, email, organisationTags, events, contacts);
-    }
-
     @PutMapping(path = "/updatejson/{orgId}")
     @CrossOrigin(origins = "*")
     public void updateOrgJSON(@PathVariable("orgId") UUID orgId, @RequestBody Organisation org) {

@@ -1,6 +1,7 @@
 package com.nathandownes.artcrm.tags;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nathandownes.artcrm.contacts.Contact;
@@ -32,6 +33,56 @@ public class Tag {
     private UUID id;
     private String name;
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "contactTags")
+    private Set<Contact> contacts;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "tags")
+    private Set<Event> events;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "tags")
+    private Set<Organisation> organisations;
+
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
+
+    public Set<Organisation> getOrganisations() {
+        return organisations;
+    }
+
+    public void setOrganisations(Set<Organisation> organisations) {
+        this.organisations = organisations;
+    }
+
+    public void emptyContactTags() {
+        this.contacts.clear();
+    }
+
+    public void emptyOrgTags() {
+        this.organisations.clear();
+    }
+
+    public void emptyEventTags() {
+        this.events.clear();
+    }
 
     public UUID getId() {
         return id;

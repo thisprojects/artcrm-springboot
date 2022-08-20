@@ -8,7 +8,7 @@ import com.nathandownes.artcrm.utility.JsonModel;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -42,8 +42,6 @@ public class Contact {
     private String email;
     @JsonView(JsonModel.CoreData.class)
     private Integer age;
-
-    private LocalDate created;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "contact_tags",
@@ -60,7 +58,7 @@ public class Contact {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "contacts")
     private Set<Organisation> organisations;
 
-    public Contact(UUID id, String firstName, String email, String lastName, String postCode, Integer age, LocalDate created, Set<Tag> contactTags, Set<Event> events, Set<Organisation> organisations) {
+    public Contact(UUID id, String firstName, String email, String lastName, String postCode, Integer age, Set<Tag> contactTags, Set<Event> events, Set<Organisation> organisations) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -70,14 +68,10 @@ public class Contact {
         this.contactTags = contactTags;
         this.events = events;
         this.organisations = organisations;
-        this.created = LocalDate.now();
+
     }
 
     public Contact() {
-    }
-
-    public void setCreated() {
-        this.created = LocalDate.now();
     }
 
     public String getEmail() {
@@ -88,13 +82,11 @@ public class Contact {
         this.email = email;
     }
 
-
-
-
-
-    public void removeTags() {
-        this.contactTags.clear();
+    public void removeTag(Tag tag) {
+        this.contactTags.remove(tag);
     }
+
+    public void removeTags() {this.contactTags.clear();}
 
     public UUID getId() {
         return id;
@@ -140,8 +132,6 @@ public class Contact {
         this.contactTags = contactTags;
     }
 
-
-
     @Override
     public String toString() {
         return "Contact{" +
@@ -164,5 +154,17 @@ public class Contact {
 
     public void setEvents(Set<Event> events) {
         this.events = events;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Contact contact)) return false;
+        return getId().equals(contact.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

@@ -39,7 +39,7 @@ public class OrganisationService {
         if (organisationRepository.existsById(orgId)) {
             Organisation org = organisationRepository.findOrganisationById(orgId).orElseThrow(() -> new IllegalStateException("Organisation not found"));
             Set<Contact> contacts = org.getContacts();
-            Set<Tag> orgTags = org.getOrganisationTags();
+            Set<Tag> orgTags = org.getTags();
 
             if (!contacts.isEmpty()) {
                 org.removeContacts();
@@ -61,7 +61,7 @@ public class OrganisationService {
         String name = organisation.getName();
         String email = organisation.getEmail();
         String postCode = organisation.getPostCode();
-        Set<Tag> orgTags = organisation.getOrganisationTags();
+        Set<Tag> tags = organisation.getTags();
         Set<Contact> contacts = organisation.getContacts();
 
 
@@ -77,51 +77,30 @@ public class OrganisationService {
             orgFromDb.setEmail(email);
         }
 
-        if (orgTags != null && !orgTags.isEmpty()) {
-            Set<Tag> tags = organisation.getOrganisationTags();
-            tags.addAll(orgTags);
-            orgFromDb.setOrganisationTags(tags);
+        if (tags != null && !tags.isEmpty()) {
+            Set<Tag> tagsFromDb = orgFromDb.getTags();
+            for (Tag tag: tags) {
+                if (tagsFromDb.contains(tag)) {
+                    tagsFromDb.remove(tag);
+                } else {
+                    tagsFromDb.add(tag);
+                }
+            }
+            orgFromDb.setTags(tags);
         }
 
         if (contacts != null && !contacts.isEmpty()) {
             Set<Contact> contactSet = orgFromDb.getContacts();
-            contactSet.addAll(contacts);
+            for (Contact contact: contacts) {
+                if (contactSet.contains(contact)) {
+                    contactSet.remove(contact);
+                } else {
+                    contactSet.add(contact);
+                }
+            }
             orgFromDb.setContacts(contactSet);
         }
     }
-
-
-    @Transactional
-    public void updateOrganisation(UUID orgId, String name, String postCode, String email, Set<Tag>
-            organisationTags, Set<Event> events, Set<Contact> contacts) {
-        Organisation organisation = organisationRepository.findOrganisationById(orgId).orElseThrow(() -> new IllegalStateException("No Organisation found"));
-
-        if (name != null && name.length() > 0 && !Objects.equals(name, organisation.getName())) {
-            organisation.setName(name);
-        }
-
-        if (postCode != null && postCode.length() > 0 && !Objects.equals(postCode, organisation.getPostCode())) {
-            organisation.setPostCode(postCode);
-        }
-
-        if (email != null && email.length() > 0 && !Objects.equals(email, organisation.getEmail())) {
-            organisation.setEmail(email);
-        }
-
-        if (organisationTags != null && !organisationTags.isEmpty()) {
-            Set<Tag> tags = organisation.getOrganisationTags();
-            tags.addAll(organisationTags);
-            organisation.setOrganisationTags(tags);
-        }
-
-        if (contacts != null && !contacts.isEmpty()) {
-            Set<Contact> currentContacts = organisation.getContacts();
-            currentContacts.addAll(contacts);
-            organisation.setContacts(currentContacts);
-        }
-
-    }
-
 
     public Organisation getSingleOrganisation(UUID orgId) {
         return organisationRepository.findOrganisationById(orgId).orElseThrow(() -> new IllegalStateException("No organisation found"));

@@ -57,7 +57,7 @@ public class Event {
             joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
-    private Set<Tag> eventTags;
+    private Set<Tag> tags;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
@@ -69,12 +69,12 @@ public class Event {
     public Event() {
     }
 
-    public Event(UUID id, String name, String postCode, String venueName, LocalDate date, Set<Tag> eventTags, Set<Contact> contacts) {
+    public Event(UUID id, String name, String postCode, String venueName, LocalDate date, Set<Tag> tags, Set<Contact> contacts) {
         this.id = id;
         this.name = name;
         this.postCode = postCode;
         this.venueName = venueName;
-        this.eventTags = eventTags;
+        this.tags = tags;
 
         this.contacts = contacts;
         this.eventDate = date;
@@ -123,12 +123,14 @@ public class Event {
     }
 
     public Set<Tag> getTags() {
-        return eventTags;
+        return tags;
     }
 
     public void setTags(Set<Tag> tags) {
-        this.eventTags = eventTags;
+        this.tags = tags;
     }
+
+    public void removeTag(Tag tag) {this.tags.remove(tag);}
 
     public Set<Contact> getContacts() {
         return contacts;
@@ -150,6 +152,6 @@ public class Event {
     }
 
     public void removeEventTags() {
-        this.eventTags.clear();
+        this.tags.clear();
     }
 }
