@@ -82,39 +82,6 @@ public class ContactService {
     }
 
     @Transactional
-    public void updateContact(UUID contactId, String email, String firstName, String lastName, String postCode, Integer age, Set<Tag>
-            contactTags) {
-        Contact contact = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("No contact found"));
-
-        if (firstName != null && firstName.length() > 0 && !Objects.equals(firstName, contact.getFirstName())) {
-            contact.setFirstName(firstName);
-        }
-
-        if (lastName != null && lastName.length() > 0 && !Objects.equals(lastName, contact.getLastName())) {
-            contact.setLastName(lastName);
-        }
-
-        if (postCode != null && postCode.length() > 0 && !Objects.equals(postCode, contact.getPostCode())) {
-            contact.setPostCode(postCode);
-        }
-
-        if (email != null && email.length() > 0 && !Objects.equals(email, contact.getEmail())) {
-            contact.setEmail(email);
-        }
-
-        if (age != null && age > 0 && !Objects.equals(age, contact.getAge())) {
-            contact.setAge(age);
-        }
-
-        if (contactTags != null && !contactTags.isEmpty()) {
-            Set<Tag> tags = contact.getTags();
-            tags.addAll(contactTags);
-            contact.setTags(tags);
-        }
-
-    }
-
-    @Transactional
     public void updateContactJson(UUID contactId, Contact contact) {
         Contact contactFromDb = contactRepository.findById(contactId).orElseThrow(() -> new IllegalStateException("No contact found"));
 

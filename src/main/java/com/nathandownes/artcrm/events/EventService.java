@@ -1,20 +1,27 @@
 package com.nathandownes.artcrm.events;
 import com.nathandownes.artcrm.contacts.Contact;
+import com.nathandownes.artcrm.contacts.ContactRepository;
 import com.nathandownes.artcrm.tags.Tag;
+import com.nathandownes.artcrm.tags.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final ContactRepository contactRepository;
+    private final TagRepository tagRepository;
 
     @Autowired
-    public EventService(EventRepository EventRepository) {
+    public EventService(EventRepository EventRepository, ContactRepository contactRepository, TagRepository tagRepository) {
         this.eventRepository = EventRepository;
+        this.contactRepository = contactRepository;
+        this.tagRepository = tagRepository;
     }
 
     public List<Event> getEvents() {
@@ -67,6 +74,7 @@ public class EventService {
         String name = event.getName();
         String venueName = event.getVenueName();
         String postCode = event.getPostCode();
+        LocalDate eventDate = event.getEventDate();
         Set<Tag> tags = event.getTags();
         Set<Contact> contacts = event.getContacts();
 
@@ -83,23 +91,29 @@ public class EventService {
             eventFromDb.setVenueName(venueName);
         }
 
+        if (eventDate != null  && !Objects.equals(eventDate, eventFromDb.getEventDate())) {
+            eventFromDb.setEventDate(eventDate);
+        }
+
         if (tags != null && !tags.isEmpty()) {
-            Set<Tag> tagsFromDb = eventFromDb.getTags();
+            Set<Tag> eventTagsFromDb = eventFromDb.getTags();
             for (Tag tag: tags) {
-                if (tagsFromDb.contains(tag)) {
-                    tagsFromDb.remove(tag);
+                Tag tagFromDb = tagRepository.findById(tag.getId()).orElseThrow(() -> new  IllegalStateException("No  tag found"));
+                if (eventTagsFromDb.contains(tagFromDb)) {
+                    eventTagsFromDb.remove(tagFromDb);
                 } else {
-                    tagsFromDb.add(tag);
+                    eventTagsFromDb.add(tag);
                 }
             }
-            eventFromDb.setTags(tagsFromDb);
+            eventFromDb.setTags(eventTagsFromDb);
         }
 
         if (contacts != null && !contacts.isEmpty()) {
             Set<Contact> contactSet = eventFromDb.getContacts();
             for (Contact contact: contacts) {
-                if (contactSet.contains(contact)) {
-                    contactSet.remove(contact);
+               Contact contactFromDb = contactRepository.findById(contact.getId()).orElseThrow(() -> new  IllegalStateException("No  contact found"));
+                if (contactSet.contains(contactFromDb)) {
+                    contactSet.remove(contactFromDb);
                 } else {
                     contactSet.add(contact);
                 }

@@ -10,6 +10,9 @@ import java.util.UUID;
 @Table
 @Entity
 public class Integration {
+    public Integration() {
+    }
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -24,17 +27,17 @@ public class Integration {
     )
     @JsonView(JsonModel.CoreData.class)
     private UUID id;
+    @JsonView(JsonModel.CoreData.class)
     private String name;
 
     public UUID getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
+
 }

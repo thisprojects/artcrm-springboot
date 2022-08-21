@@ -69,15 +69,14 @@ public class Event {
     public Event() {
     }
 
-    public Event(UUID id, String name, String postCode, String venueName, LocalDate date, Set<Tag> tags, Set<Contact> contacts) {
+    public Event(UUID id, String name, String postCode, String venueName, LocalDate eventDate, Set<Tag> tags, Set<Contact> contacts) {
         this.id = id;
         this.name = name;
         this.postCode = postCode;
         this.venueName = venueName;
         this.tags = tags;
-
         this.contacts = contacts;
-        this.eventDate = date;
+        this.eventDate = eventDate;
         this.created = LocalDate.now();
     }
 

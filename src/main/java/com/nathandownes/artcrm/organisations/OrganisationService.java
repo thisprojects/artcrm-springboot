@@ -1,7 +1,8 @@
 package com.nathandownes.artcrm.organisations;
 import com.nathandownes.artcrm.contacts.Contact;
-import com.nathandownes.artcrm.events.Event;
+import com.nathandownes.artcrm.contacts.ContactRepository;
 import com.nathandownes.artcrm.tags.Tag;
+import com.nathandownes.artcrm.tags.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +13,14 @@ import java.util.*;
 public class OrganisationService {
 
     private final OrganisationRepository organisationRepository;
+    private final TagRepository tagRepository;
+    private final ContactRepository contactRepository;
 
     @Autowired
-    public OrganisationService(OrganisationRepository organisationRepository) {
+    public OrganisationService(OrganisationRepository organisationRepository, TagRepository tagRepository, ContactRepository contactRepository) {
         this.organisationRepository = organisationRepository;
-
+        this.tagRepository = tagRepository;
+        this.contactRepository = contactRepository;
     }
 
     public List<Organisation> getOrganisations() {
@@ -78,22 +82,24 @@ public class OrganisationService {
         }
 
         if (tags != null && !tags.isEmpty()) {
-            Set<Tag> tagsFromDb = orgFromDb.getTags();
+            Set<Tag> orgTagsFromDb = orgFromDb.getTags();
             for (Tag tag: tags) {
-                if (tagsFromDb.contains(tag)) {
-                    tagsFromDb.remove(tag);
+                Tag tagFromDb = tagRepository.findById(tag.getId()).orElseThrow(() -> new  IllegalStateException("No  tag found"));
+                if (orgTagsFromDb.contains(tagFromDb)) {
+                    orgTagsFromDb.remove(tagFromDb);
                 } else {
-                    tagsFromDb.add(tag);
+                    orgTagsFromDb.add(tag);
                 }
             }
-            orgFromDb.setTags(tags);
+            orgFromDb.setTags(orgTagsFromDb);
         }
 
         if (contacts != null && !contacts.isEmpty()) {
             Set<Contact> contactSet = orgFromDb.getContacts();
             for (Contact contact: contacts) {
-                if (contactSet.contains(contact)) {
-                    contactSet.remove(contact);
+                Contact contactFromDb = contactRepository.findById(contact.getId()).orElseThrow(() -> new  IllegalStateException("No  contact found"));
+                if (contactSet.contains(contactFromDb)) {
+                    contactSet.remove(contactFromDb);
                 } else {
                     contactSet.add(contact);
                 }

@@ -68,16 +68,6 @@ public class ContactController {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
-    @PutMapping(path = "/update/{contactId}")
-    public void updateContact(@PathVariable("contactId") UUID contactId,
-                              @RequestParam(required = false) String firstName,
-                              @RequestParam(required = false) String lastName,
-                              @RequestParam(required = false) String email,
-                              @RequestParam(required = false) String postCode,
-                              @RequestParam(required = false) Integer age,
-                              @RequestParam(required = false) Set<Tag> contactTags){
-        contactService.updateContact(contactId, email, firstName, lastName, postCode, age, contactTags);
-    }
 
     @PutMapping(path = "/updatejson/{contactId}")
     @CrossOrigin(origins = "*")
