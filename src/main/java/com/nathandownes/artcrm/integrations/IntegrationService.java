@@ -25,9 +25,9 @@ public class IntegrationService {
     }
 
     public void addNewIntegration(Integration integration) {
-        Optional<Integration> IntegrationByEmail = integrationRepository
+        Optional<Integration> IntegrationByName = integrationRepository
                 .findIntegrationByName(integration.getName());
-        if (IntegrationByEmail.isPresent()) {
+        if (IntegrationByName.isPresent()) {
             throw new IllegalStateException("Already Exists");
         } else {
             integrationRepository.save(integration);

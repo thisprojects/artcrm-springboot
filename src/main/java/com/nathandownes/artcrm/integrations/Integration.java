@@ -30,6 +30,10 @@ public class Integration {
     @JsonView(JsonModel.CoreData.class)
     private String name;
 
+    public Integration(String name) {
+        this.name = name;
+    }
+
     public UUID getId() {
         return id;
     }

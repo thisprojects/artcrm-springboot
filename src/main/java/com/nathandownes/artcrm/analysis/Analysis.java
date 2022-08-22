@@ -1,4 +1,5 @@
 package com.nathandownes.artcrm.analysis;
+import java.util.List;
 import java.util.Set;
 
 public class Analysis {
@@ -8,10 +9,10 @@ public class Analysis {
     Long numberOfOrganisations;
     Set<EventStats> mostRecentEvents;
     Set<ContactAnalysis> ageDemographic;
-    Set<String> postcodes;
+    List<String> postcodes;
 
 
-    public Analysis(Long numberOfEvents, Long numberOfContacts, Long numberOfOrganisations, Set<EventStats> mostRecentEvents, Set<ContactAnalysis> ageDemographic, Set<String> postcodes) {
+    public Analysis(Long numberOfEvents, Long numberOfContacts, Long numberOfOrganisations, Set<EventStats> mostRecentEvents, Set<ContactAnalysis> ageDemographic, List<String> postcodes) {
         this.numberOfEvents = numberOfEvents;
         this.numberOfContacts = numberOfContacts;
         this.numberOfOrganisations = numberOfOrganisations;
@@ -20,11 +21,11 @@ public class Analysis {
         this.postcodes = postcodes;
     }
 
-    public Set<String> getPostcodes() {
+    public List<String> getPostcodes() {
         return postcodes;
     }
 
-    public void setPostcodes(Set<String> postcodes) {
+    public void setPostcodes(List<String> postcodes) {
         this.postcodes = postcodes;
     }
 

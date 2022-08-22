@@ -31,7 +31,7 @@ public class AnalysisService {
         Set<EventStats> parsedTopFiveEvents = topFiveEvents.stream().map(item -> new EventStats(item.getName(), item.getContacts().size())).collect(Collectors.toSet());
 
         List<Contact> allContacts = contactRepository.findAll();
-        Set<String> allPostcodes = allContacts.stream().map(item -> item.getPostCode()).collect(Collectors.toSet());
+        List<String> allPostcodes = allContacts.stream().map(item -> item.getPostCode()).collect(Collectors.toList());
 
         return new Analysis(eventRepository.count(), contactRepository.count(), organisationRepository.count(), parsedTopFiveEvents, contactRepository.findAllByOrderByIdDesc(), allPostcodes);
     }
