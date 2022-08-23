@@ -155,16 +155,5 @@ public class Contact {
     public void setEvents(Set<Event> events) {
         this.events = events;
     }
-//
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (!(o instanceof Contact contact)) return false;
-//        return getId().equals(contact.getId());
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(getId());
-//    }
+
 }

@@ -14,6 +14,7 @@ public interface SingleContactView {
     String getLastName();
     String getPostCode();
     String getAge();
+    String getEmail();
     Set<ShortEvent> getEvents();
     Set<ShortOrg> getOrganisations();
     Set<Tag> getTags();
