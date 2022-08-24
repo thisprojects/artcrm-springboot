@@ -1,7 +1,4 @@
 package com.nathandownes.artcrm.integrations;
-
-import com.nathandownes.artcrm.integrations.Integration;
-import com.nathandownes.artcrm.tags.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

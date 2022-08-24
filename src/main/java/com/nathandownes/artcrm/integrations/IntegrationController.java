@@ -1,7 +1,4 @@
 package com.nathandownes.artcrm.integrations;
-
-import com.nathandownes.artcrm.integrations.Integration;
-import com.nathandownes.artcrm.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

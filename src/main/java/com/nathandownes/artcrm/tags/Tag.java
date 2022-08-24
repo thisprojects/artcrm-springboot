@@ -1,8 +1,5 @@
 package com.nathandownes.artcrm.tags;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.nathandownes.artcrm.contacts.Contact;
 import com.nathandownes.artcrm.events.Event;

@@ -1,6 +1,5 @@
 package com.nathandownes.artcrm.contacts;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.nathandownes.artcrm.tags.Tag;
 import com.nathandownes.artcrm.utility.JsonModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -70,13 +70,13 @@ public class TagService {
             Set<Event> eventTags = tag.getEvents();
             Set<Organisation> orgTags = tag.getOrganisations();
             if (!contactTags.isEmpty()) {
-                contactTags.stream().forEach(item -> deleteContactRelations(item.getId(), tag));
+                contactTags.forEach(item -> deleteContactRelations(item.getId(), tag));
             }
             if (!eventTags.isEmpty()) {
-                eventTags.stream().forEach(item -> deleteEventRelations(item.getId(), tag));
+                eventTags.forEach(item -> deleteEventRelations(item.getId(), tag));
             }
             if (!orgTags.isEmpty()) {
-                orgTags.stream().forEach(item -> deleteOrgRelations(item.getId(), tag));
+                orgTags.forEach(item -> deleteOrgRelations(item.getId(), tag));
             }
             tagRepository.deleteById(tag.getId());
         } else {
@@ -87,31 +87,11 @@ public class TagService {
     @Transactional
     public void updateTagJson(UUID tagId, Tag tag) {
         Tag tagFromDb = tagRepository.findById(tagId).orElseThrow(() -> new IllegalStateException("No Tag found"));
-
         String name = tag.getName();
-//        String email = tag.getEmail();
-//        String postCode = tag.getPostCode();
-//        Set<Tag> orgTags = tag.getOrganisationTags();
-//        Set<Contact> contacts = tag.getContacts();
-
 
         if (name != null && name.length() > 0 && !Objects.equals(name, tagFromDb.getName())) {
             tagFromDb.setName(name);
         }
-
-
-
-//        if (orgTags != null && !orgTags.isEmpty()) {
-//            Set<Tag> tags = tag.getOrganisationTags();
-//            tags.addAll(orgTags);
-//            tagFromDb.setOrganisationTags(tags);
-//        }
-//
-//        if (contacts != null && !contacts.isEmpty()) {
-//            Set<Contact> contactSet = tag.getContacts();
-//            contactSet.addAll(contacts);
-//            tagFromDb.setContacts(contactSet);
-//        }
     }
 
     public Tag getSingleTag(UUID tagId) {

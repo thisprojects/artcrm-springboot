@@ -6,9 +6,7 @@ import com.nathandownes.artcrm.organisations.Organisation;
 import com.nathandownes.artcrm.tags.Tag;
 import com.nathandownes.artcrm.utility.JsonModel;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 

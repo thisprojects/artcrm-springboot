@@ -1,6 +1,4 @@
 package com.nathandownes.artcrm.integrations;
-
-import com.nathandownes.artcrm.integrations.Integration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

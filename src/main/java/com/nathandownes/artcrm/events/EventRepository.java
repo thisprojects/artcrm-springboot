@@ -1,6 +1,4 @@
 package com.nathandownes.artcrm.events;
-
-import com.nathandownes.artcrm.analysis.EventStats;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

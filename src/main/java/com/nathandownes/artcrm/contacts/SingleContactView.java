@@ -3,8 +3,6 @@ package com.nathandownes.artcrm.contacts;
 import com.nathandownes.artcrm.events.ShortEvent;
 import com.nathandownes.artcrm.organisations.ShortOrg;
 import com.nathandownes.artcrm.tags.Tag;
-
-import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
