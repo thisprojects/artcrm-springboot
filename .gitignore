@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+####EC2####
+*.pem
+/ec2*/
